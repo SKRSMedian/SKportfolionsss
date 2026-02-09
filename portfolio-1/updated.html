@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <!-- Importing Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS VARIABLES & RESET */
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-red: #ff3333;
+            --card-bg: rgba(20, 20, 20, 0.8); /* Darker bg for text readability */
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden; 
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.9); /* Slightly darker to read over bg image */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-red);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+            padding-top: 80px; 
+            position: relative;
+            overflow: hidden; /* Ensures background image doesn't overflow */
+        }
+
+        /* BACKGROUND IMAGE STYLING */
+        .bg-img-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 60%; /* Occupy right side */
+            z-index: 0; /* Behind everything */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            
+            /* TRANSPARECY & BLEND */
+            opacity: 0.6; /* Low transparency */
+            filter: grayscale(20%); /* Slight grayscale to blend better */
+            
+            /* FADE EFFECT: Makes image fade out towards the left */
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to left, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+        }
+
+        /* CONTENT STYLING */
+        .hero-content {
+            position: relative;
+            z-index: 10; /* Ensures text is above background image */
+            max-width: 600px;
+        }
+
+        .hero-headline {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .hero-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 6rem;
+            color: var(--accent-red);
+            line-height: 1.1;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
+            /* Drop shadow to make name pop against background image */
+            filter: drop-shadow(2px 2px 0px #000); 
+        }
+
+        /* ABOUT ME BOX */
+        .about-box {
+            background: rgba(0, 0, 0, 0.6); /* More opaque to read text over bg image */
+            border: 1px solid var(--accent-red);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(8px);
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .about-box:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .about-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .about-box p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* SIGNATURE AREA */
+        .signature-area {
+            position: absolute;
+            bottom: 50px;
+            left: 8%; /* Positioned on left now since image is background */
+            font-family: 'Great Vibes', cursive;
+            color: var(--accent-red);
+            font-size: 2.5rem;
+            transform: rotate(-5deg);
+            pointer-events: none;
+            opacity: 1.5;
+            z-index: 5;
+            text-shadow: 0 0 5px #000;
+        }
+
+        /* SKILLS SECTION (SLIDES) */
+        .skills-section {
+            padding: 50px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 100px;
+            position: relative;
+            z-index: 10;
+            background-color: #000; /* Ensure skills section is solid black */
+        }
+
+        .skill-slide {
+            width: 90%;
+            margin: 0 auto;
+            height: 100px;
+            background: linear-gradient(90deg, #111, #1a1a1a);
+            border-left: 5px solid var(--accent-red);
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            justify-content: space-between;
+            border-radius: 5px;
+            
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .skill-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skill-info h3 {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+        .skill-info p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            color: var(--accent-red);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 968px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 100px;
+                justify-content: center;
+            }
+
+            .bg-img-container {
+                width: 100%;
+                opacity: 0.15;
+            }
+
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-name {
+                font-size: 4rem;
+            }
+            
+            .signature-area {
+                left: 50%;
+                transform: translateX(-50%) rotate(-5deg);
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <nav>
+        <div class="logo">PORTFOLIO</div>
+        <ul class="nav-links">
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">PROJECTS</a></li>
+            <li><a href="#">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Hero Section -->
+    <main class="hero">
+        
+        <!-- Background Image (Right side, transparent) -->
+        <div class="bg-img-container">
+            <!-- Replace with your transparent PNG -->
+            <img src="sasuke-uchiha-dark-3840x2160-19881.jpg" alt="Background Character" class="bg-img">
+        </div>
+
+        <!-- Left Side Content -->
+        <div class="hero-content">
+            <div class="hero-headline">Hello, Welcome to My Portfolio</div>
+            <h1 class="hero-name">Shubham</h1>
+
+            <div class="about-box">
+                <h3>About Me</h3>
+                <p>
+                    I am a passionate developer skilled in C, C++, Python, and UI/UX design. 
+                    I love building interactive and aesthetic websites. 
+                </p>
+            </div>
+        </div>
+
+        <!-- Signature Overlay -->
+        <div class="signature-area">Signing in</div>
+
+    </main>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <!-- Slide 1 -->
+        <div class="skill-slide reveal-on-scroll">
+            <div class="skill-info">
+                <h3>Languages</h3>
+                <p>C, C++, Python, JavaScript</p>
+            </div>
+            <i class="fas fa-code skill-icon"></i>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="skill-slide reveal-on-scroll">
+            <div class="skill-info">
+                <h3>Web Development</h3>
+                <p>HTML5, CSS3, React, Node.js</p>
+            </div>
+            <i class="fas fa-globe skill-icon"></i>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="skill-slide reveal-on-scroll">
+            <div class="skill-info">
+                <h3>UI/UX Design</h3>
+                <p>Figma, Adobe XD, Prototyping</p>
+            </div>
+            <i class="fas fa-pen-nib skill-icon"></i>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="skill-slide reveal-on-scroll">
+            <div class="skill-info">
+                <h3>Tools</h3>
+                <p>Git, VS Code, Bootstrap</p>
+            </div>
+            <i class="fas fa-tools skill-icon"></i>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollElements = document.querySelectorAll('.reveal-on-scroll');
+
+            const elementInView = (el, dividend = 1) => {
+                const elementTop = el.getBoundingClientRect().top;
+                return (
+                    elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+                );
+            };
+
+            const displayScrollElement = (element) => {
+                element.classList.add('active');
+            };
+
+            const handleScrollAnimation = () => {
+                scrollElements.forEach((el) => {
+                    if (elementInView(el, 1.25)) {
+                        displayScrollElement(el);
+                    }
+                });
+            }
+
+            handleScrollAnimation();
+            window.addEventListener('scroll', () => {
+                handleScrollAnimation();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+    (function (l) {
+      if (l.search[1] === "/") {
+        var decoded = l.search
+          .slice(1)
+          .split("&")
+          .map(function (s) {
+            return s.replace(/~and~/g, "&");
+          })
+          .join("?");
+        window.history.replaceState(
+          null,
+          null,
+          l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    })(window.location);
+  </script>
+
+</body>
+</html>
